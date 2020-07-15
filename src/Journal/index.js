@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './styles.css';
 
 const useNavigation = (length) => {
   const [shift, setShift] = useState(0);
