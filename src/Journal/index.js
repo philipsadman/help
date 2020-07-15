@@ -16,13 +16,24 @@ const useNavigation = (length) => {
 };
 
 const Journal = ({ students }) => {
-  const dates = students.reduce((acc, { dates }) => {
-    dates.forEach(date => {
-      if (acc.indexOf(date.date) === -1) acc.push(date.date);
-    });
+  const dates = students
+    .reduce((acc, { dates }) => {
+      dates.forEach(date => {
+        if (acc.indexOf(date.date) === -1) acc.push(date.date);
+      });
 
-    return acc;
-  }, []);
+      return acc;
+    }, [])
+    .sort((a, b) => {
+      const aChunks = a.split('-').map(val => parseInt(val));
+      const bChunks = b.split('-').map(val => parseInt(val));
+
+      return (
+        aChunks[2] > bChunks[2] ||
+        aChunks[1] > bChunks[1] ||
+        aChunks[0] > bChunks[0]
+      ) ? 1 : -1;
+    });
 
   const navigation = useNavigation(dates.length);
 
