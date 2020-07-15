@@ -11,7 +11,7 @@ const useNavigation = (length, step) => {
     return [...array].splice(shift, step);
   };
 
-  return { forward, backward, cut };
+  return { forward, backward, cut, shift };
 };
 
 const Journal = ({ students, events, step }) => {
@@ -24,8 +24,10 @@ const Journal = ({ students, events, step }) => {
   };
 
   const firstRowStyles = {
+    paddingLeft: 30,
+    display: 'flex',
     justifyContent: 'left',
-    paddingLeft: 30
+    alignItems: 'center'
   };
 
   return (
@@ -39,7 +41,6 @@ const Journal = ({ students, events, step }) => {
         <div
           style={{
             width: 300,
-            ...rowStyles,
             ...firstRowStyles
           }}
         >
@@ -55,9 +56,9 @@ const Journal = ({ students, events, step }) => {
         </div>
 
         {navigation.cut(events).map(
-          (event, i) => (
+          event => (
             <div
-              key={i}
+              key={event.educationPlanEventId}
               style={{
                 flex: 1,
                 display: 'flex',
@@ -66,7 +67,7 @@ const Journal = ({ students, events, step }) => {
               }}
             >
               <div style={{ flex: 1, ...rowStyles }}>{event.bookedStartDate}</div>
-              <div key={i} style={{ flex: 1, ...rowStyles }}>
+              <div style={{ flex: 1, ...rowStyles }}>
                 <div style={{ flex: 1, ...rowStyles }}>Урок</div>
                 <div style={{ flex: 1, ...rowStyles }}>Тест</div>
                 {event.homeworkAttached && <div style={{ flex: 1, ...rowStyles }}>Д/З</div>}
@@ -85,31 +86,31 @@ const Journal = ({ students, events, step }) => {
 
       <div className="students">
         {students.map(
-          (student, i) => (
+          (student, index) => (
             <div
-              key={i}
+              key={student.id}
               style={{
                 display: 'flex',
                 height: 50
               }}
             >
               <div
-                style={{ width: 300, ...rowStyles, ...firstRowStyles }}
+                style={{ width: 300, ...firstRowStyles }}
               >
-                <span>{i + 1}</span>
+                <span>{index + 1}</span>
             <span style={{ marginLeft: 20 }}>{student.firstName} {student.lastName}</span>
               </div>
 
               <div style={{ height: 50, width: 20 }}></div>
 
               {navigation.cut(events).map(
-                (event, i) => {
+                event => {
                   const studentEvent = student.events.find(
                     e => e.educationPlanEventId === event.educationPlanEventId
                   );
 
                   return (
-                    <div style={{ flex: 1, ...rowStyles }} key={i}>
+                    <div style={{ flex: 1, ...rowStyles }} key={event.educationPlanEventId}>
                       <div style={{ flex: 1, ...rowStyles }}>{studentEvent?.lessonScore}</div>
                       <div style={{ flex: 1, ...rowStyles }}>{studentEvent?.testScore}</div>
                       {
