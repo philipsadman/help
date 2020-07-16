@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import styles from './styles';
 
 const useNavigation = (length, step) => {
   const [shift, setShift] = useState(0);
@@ -17,31 +18,20 @@ const useNavigation = (length, step) => {
 const Journal = ({ students, events, step }) => {
   const navigation = useNavigation(events.length, step);
 
-  const rowStyles = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  };
-
-  const firstRowStyles = {
-    paddingLeft: 30,
-    display: 'flex',
-    justifyContent: 'left',
-    alignItems: 'center'
-  };
-
   return (
-    <div className="journal">
+    <div style={{ fontSize: 14 }}>
       <div
-        className="dates-columns"
         style={{
-          display: 'flex'
+          display: 'flex',
+          padding: '10px 0',
+          borderTop: '2px solid #eee',
+          boxShadow: '0px 4px 5px -2px rgba(0, 0, 0, 0.2)'
         }}
       >
         <div
           style={{
             width: 300,
-            ...firstRowStyles
+            ...styles.firstRowStyles
           }}
         >
           <span>#</span>
@@ -49,7 +39,7 @@ const Journal = ({ students, events, step }) => {
         </div>
 
         <div
-          style={{ height: 50, width: 20, ...rowStyles }}
+          style={{ ...styles.arrow }}
           onClick={navigation.backward}
         >
           {`<`}
@@ -66,18 +56,18 @@ const Journal = ({ students, events, step }) => {
                 height: 50
               }}
             >
-              <div style={{ flex: 1, ...rowStyles }}>{event.bookedStartDate}</div>
-              <div style={{ flex: 1, ...rowStyles }}>
-                <div style={{ flex: 1, ...rowStyles }}>Урок</div>
-                <div style={{ flex: 1, ...rowStyles }}>Тест</div>
-                {event.homeworkAttached && <div style={{ flex: 1, ...rowStyles }}>Д/З</div>}
+              <div style={{ ...styles.rowStyles, color: '#777' }}>{event.bookedStartDate}</div>
+              <div style={{ ...styles.rowStyles }}>
+                <div style={{ ...styles.rowStyles, fontWeight: 600 }}>Урок</div>
+                <div style={{ ...styles.rowStyles, fontWeight: 600 }}>Тест</div>
+                {event.homeworkAttached && <div style={{ ...styles.rowStyles, fontWeight: 600 }}>Д/З</div>}
               </div>
             </div>
           )
         )}
 
         <div
-          style={{ height: 50, width: 20, ...rowStyles }}
+          style={{ ...styles.arrow }}
           onClick={navigation.forward}
         >
           {`>`}
@@ -95,7 +85,7 @@ const Journal = ({ students, events, step }) => {
               }}
             >
               <div
-                style={{ width: 300, ...firstRowStyles }}
+                style={{ width: 300, ...styles.firstRowStyles }}
               >
                 <span>{index + 1}</span>
             <span style={{ marginLeft: 20 }}>{student.firstName} {student.lastName}</span>
@@ -110,12 +100,12 @@ const Journal = ({ students, events, step }) => {
                   );
 
                   return (
-                    <div style={{ flex: 1, ...rowStyles }} key={event.educationPlanEventId}>
-                      <div style={{ flex: 1, ...rowStyles }}>{studentEvent?.lessonScore}</div>
-                      <div style={{ flex: 1, ...rowStyles }}>{studentEvent?.testScore}</div>
+                    <div style={{ ...styles.rowStyles }} key={event.educationPlanEventId}>
+                      <div style={{ ...styles.rowStyles, ...styles.bodyRow }}>{studentEvent?.lessonScore}</div>
+                      <div style={{ ...styles.rowStyles, ...styles.bodyRow }}>{studentEvent?.testScore}</div>
                       {
                         event.homeworkAttached && (
-                          <div style={{ flex: 1, ...rowStyles }}>{studentEvent?.homeworkScore}</div>
+                          <div style={{ ...styles.rowStyles, ...styles.bodyRow }}>{studentEvent?.homeworkScore}</div>
                         )
                       }
                     </div>
